@@ -1,19 +1,22 @@
 const express = require('express');
+//add body parser
+const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const views = require('./views');
 const {Page, User} = require('./models');
 const app = express();
 
 app.use(morgan('dev'));
-//how do we use this in the future?
 app.use(express.static(__dirname + '/public'));
-app.use(express.urlencoded({extended : false}));
+//implement body parser
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended : true}));
 
 app.get('/', (req, res) => {
   res.send(views.main());
 })
 
-const PORT = 1337;
+const PORT = 3000;
 const init = async () => {
   await User.sync();
   await Page.sync();
